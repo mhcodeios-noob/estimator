@@ -14,51 +14,60 @@ struct ContentView: View {
     @State private var awningsCount = 0
     
     var body: some View {
-        ScrollView(.vertical){
-        VStack{
+        NavigationStack{
+            
+                Form {
+                    Section ("Roof Cleaning") {
+                        HouseItems(houseItem: "Pressure Clean Roof", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Roof Soft Wash", dollarAmount: 0, notes: "")
+                    }.headerProminence(.increased)        .navigationTitle("Optionals")
 
-            HouseItems(houseItem: "Roof Metal Flashing", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Window Frames", dollarAmount: 0, notes: "")
-          
-                
-                    HouseItems(houseItem: "French Doors", dollarAmount: 0, notes: "")
-            HStack{
-                Stepper(value: $frenchDoorCount, in:
-                            0...10) {
-                    Text("French doors: \(frenchDoorCount)")
                     
+                    Section ("Painting") {
+                        HouseItems(houseItem: "Roof Metal Flashing", dollarAmount: 0, notes: "")
+                        
+                        HouseItems(houseItem: "Window Frames", dollarAmount: 0, notes: "")
+                        
+                        
+                        HouseItems(houseItem: "French Doors", dollarAmount: 0, notes: "")
+                        HStack{
+                            Stepper(value: $frenchDoorCount, in:
+                                        0...10) {
+                                Text("French doors: \(frenchDoorCount)")
+                                
+                            }
+                            //                                    .fixedSize() .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 50))
+                        }
+                        
+                        
+                        
+                        
+                        HouseItems(houseItem: "Window Frames", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Railings", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Window Bars", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Accordion Shutters", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Decorative Shutters", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Fences", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Gates", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Soffit or ceiling different color than walls", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Downspouts different color than walls", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Awnings", dollarAmount: 0, notes: "")
+                        HStack{
+                            Stepper(value: $awningsCount, in:
+                                        0...10) {
+                                Text("Awnings: \(awningsCount)")
+                                
+                            }
+//                                        .fixedSize() /*.padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 50))*/
+                        }
+                        HouseItems(houseItem: "Perimetral walls", dollarAmount: 0, notes: "")
+                    }.headerProminence(.increased)
                 }
-                            .fixedSize() .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 50))
-            }
-                    
+                
+                
                 
             
-            HouseItems(houseItem: "Roof", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Window Frames", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Railings", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Window Bars", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Accordion Shutters", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Decorative Shutters", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Fences", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Gates", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Soffit or ceiling different color than walls", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Downspouts different color than walls", dollarAmount: 0, notes: "")
-            HouseItems(houseItem: "Awnings", dollarAmount: 0, notes: "")
-            HStack{
-                Stepper(value: $awningsCount, in:
-                            0...10) {
-                    Text("Awnings: \(awningsCount)")
-                    
-                }
-                            .fixedSize() .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 50))
-            }
-            HouseItems(houseItem: "Perimetral walls", dollarAmount: 0, notes: "")
         }
-    }
-        
-        
-        .padding()
-        
     }
         
     
@@ -70,10 +79,9 @@ struct Checkbox: ToggleStyle {
         Button(action: {
             configuration.isOn.toggle()
         }, label: {
-            HStack {
                 Image(systemName: configuration.isOn ? "checkmark.square" : "square")
                 configuration.label
-            }
+            
         })
     }
 }
@@ -86,20 +94,19 @@ struct HouseItems: View {
     @State var notes: String
     
     var body: some View {
-        ScrollView(.horizontal){
-            HStack{
-                Toggle(isOn: $isOn){
-                    Text("")}
-                .toggleStyle(Checkbox())
-                Text(houseItem).foregroundColor(.white) .font(.title3) .fontWeight(.bold)
-                    .padding()
-                    .background(Color.blue, in: RoundedRectangle(cornerRadius: 8))
-                
-                TextField("", value: $dollarAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                    .padding()
-                TextField("notes", text: $notes)
-                
-            }
+        HStack{
+        Toggle(isOn: $isOn){
+            Text("")}
+        .toggleStyle(Checkbox())
+        .padding(5)
+            Spacer()
+
+        Text(houseItem)/*.foregroundColor(.white)*/
+                .padding(.trailing, 60)
+        }
+        HStack{
+            TextField("", value: $dollarAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+            TextField("notes", text: $notes)
         }
     }
 }
