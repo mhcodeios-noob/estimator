@@ -15,23 +15,24 @@ struct ContentView: View {
     @State private var awningsCount = 0
     @State private var frenchDoorPrice = 100.0
     @State private var frenchdoors = 0
+    @State private var total = 0
     
     var frenchdoorFormula: Double {
         let frenchdoorAmount = Double(frenchdoors)
         let frenchdoorPrice = frenchdoorAmount * frenchDoorPrice
         return frenchdoorPrice
     }
+
     
     var body: some View {
         NavigationStack{
             
             Form {
-                Section ("Roof Cleaning") {
-                    HouseItems(houseItem: "Pressure Clean Roof", dollarAmount: 0, notes: "")
-                    HouseItems(houseItem: "Roof Soft Wash", dollarAmount: 0, notes: "")
-                }.headerProminence(.increased)        .navigationTitle("Optionals")
-                
-                
+                    Section ("Roof Cleaning") {
+                        HouseItems(houseItem: "Pressure Clean Roof", dollarAmount: 0, notes: "")
+                        HouseItems(houseItem: "Roof Soft Wash", dollarAmount: 0, notes: "")
+                    }.headerProminence(.increased)        .navigationTitle("Optionals")
+                                
                 Section("Painting") {
                     HouseItems(houseItem: "Roof Metal Flashing", dollarAmount: 0, notes: "")
                     
@@ -72,7 +73,13 @@ struct ContentView: View {
                     }
                     HouseItems(houseItem: "Perimetral walls", dollarAmount: 0, notes: "")
                 }
+                HStack{
+                    Text("Total")
+                    TextField("",value: $total, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                }
             }.headerProminence(.increased)
+
+            
         }
         
         
@@ -118,7 +125,7 @@ struct HouseItems: View {
             }
             HStack(spacing: 230){
                 TextField("notes", text: $notes)
-                    .border(.red)
+                    
                 
                 TextField("", value: $dollarAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
             }
